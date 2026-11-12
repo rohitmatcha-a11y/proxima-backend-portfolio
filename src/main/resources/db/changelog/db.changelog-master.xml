@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <include file="db/changelog/migrations/V000__bootstrap_legacy_core_schema.xml"/>
+    <include file="db/changelog/migrations/V001__migrate_timestamps_to_timestamptz.xml"/>
+    <include file="db/changelog/migrations/V002__add_company_size_category.xml"/>
+    <include file="db/changelog/migrations/V003__create_outbox_table.xml"/>
+    <include file="db/changelog/migrations/V004__create_processed_events.xml"/>
+    <include file="db/changelog/migrations/V005__create_continent_mappings.xml"/>
+    <include file="db/changelog/migrations/V006__create_geo_locations.xml"/>
+    <include file="db/changelog/migrations/V007__add_location_text_to_jobs.xml"/>
+    <include file="db/changelog/migrations/V008__make_continent_nullable.xml"/>
+    <include file="db/changelog/migrations/V009__create_app_users.xml"/>
+    <include file="db/changelog/migrations/V010__migrate_users_to_google_identity.xml"/>
+    <include file="db/changelog/migrations/V011__enforce_job_idempotency.xml"/>
+    <include file="db/changelog/migrations/V012__create_user_job_tracking.xml"/>
+    <include file="db/changelog/migrations/V013__add_github_identity.xml"/>
+    <include file="db/changelog/migrations/V014__add_tracked_application_status.xml"/>
+    <include file="db/changelog/migrations/V015__create_feedback_submissions.xml"/>
+
+</databaseChangeLog>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        The original application schema pre-dated Liquibase. The first recorded
+        migration (V001) converts these timestamp columns to TIMESTAMPTZ, so a
+        new installation must begin with the legacy TIMESTAMP schema below.
+
+        Existing databases already have the legacy core tables. Liquibase marks
+        this changeset as ran for those databases without modifying them.
+    -->
+    <changeSet id="V000-bootstrap-legacy-core-schema" author="proxima" dbms="postgresql">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <not>
+                <tableExists tableName="companies"/>
+            </not>
+        </preConditions>
+        <sql splitStatements="true" endDelimiter=";">
+            CREATE TABLE IF NOT EXISTS companies (
+                id BIGSERIAL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL UNIQUE,
+                slug VARCHAR(255) NOT NULL UNIQUE,
+                website VARCHAR(255),
+                logo_url VARCHAR(255),
+                description TEXT,
+                industry VARCHAR(255),
+                headquarters_country VARCHAR(255),
+                headquarters_city VARCHAR(255),
+                size VARCHAR(255),
+                linkedin_url VARCHAR(255),
+                careers_page_url VARCHAR(255) NOT NULL,
+                is_active BOOLEAN NOT NULL,
+                total_jobs_scraped INTEGER NOT NULL,
+                last_scraped_at TIMESTAMP,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS jobs (
+                id BIGSERIAL PRIMARY KEY,
+                external_id VARCHAR(255),
+                title VARCHAR(255) NOT NULL,
+                company_id BIGINT,
+                description TEXT,
+                requirements TEXT,
+                responsibilities TEXT,
+                job_type VARCHAR(255),
+                work_mode VARCHAR(255),
+                experience_level VARCHAR(255),
+                industry VARCHAR(255),
+                country VARCHAR(255),
+                city VARCHAR(255),
+                continent VARCHAR(255),
+                salary_min NUMERIC(38,2),
+                salary_max NUMERIC(38,2),
+                salary_currency VARCHAR(255),
+                salary_period VARCHAR(255),
+                visa_status VARCHAR(255),
+                visa_details VARCHAR(255),
+                apply_url VARCHAR(255),
+                source_url VARCHAR(255),
+                status VARCHAR(255),
+                posted_at TIMESTAMP,
+                expires_at TIMESTAMP,
+                is_remote_friendly BOOLEAN NOT NULL,
+                tags VARCHAR(255),
+                scraper_version VARCHAR(255),
+                scraper_run_id VARCHAR(255),
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
+                CONSTRAINT fk_jobs_company FOREIGN KEY (company_id) REFERENCES companies(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS scraper_runs (
+                id BIGSERIAL PRIMARY KEY,
+                run_id VARCHAR(255) NOT NULL UNIQUE,
+                company_id BIGINT,
+                status VARCHAR(255),
+                triggered_by VARCHAR(255),
+                started_at TIMESTAMP,
+                completed_at TIMESTAMP,
+                jobs_found INTEGER NOT NULL,
+                jobs_new INTEGER NOT NULL,
+                jobs_skipped INTEGER NOT NULL,
+                jobs_failed INTEGER NOT NULL,
+                error_message TEXT,
+                retry_count INTEGER NOT NULL,
+                parent_run_id VARCHAR(255),
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
+                CONSTRAINT fk_scraper_runs_company FOREIGN KEY (company_id) REFERENCES companies(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS scraper_configs (
+                id BIGSERIAL PRIMARY KEY,
+                company_id BIGINT UNIQUE,
+                scraper_class VARCHAR(255),
+                cron_expression VARCHAR(255),
+                is_enabled BOOLEAN NOT NULL,
+                status VARCHAR(255),
+                last_run_at TIMESTAMP,
+                last_success_at TIMESTAMP,
+                last_error_at TIMESTAMP,
+                last_error_message TEXT,
+                total_runs INTEGER NOT NULL,
+                successful_runs INTEGER NOT NULL,
+                failed_runs INTEGER NOT NULL,
+                avg_jobs_per_run INTEGER NOT NULL,
+                rate_limit INTEGER NOT NULL,
+                custom_config TEXT,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
+                CONSTRAINT fk_scraper_configs_company FOREIGN KEY (company_id) REFERENCES companies(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS job_views (
+                id BIGSERIAL PRIMARY KEY,
+                job_id BIGINT,
+                ip_address VARCHAR(255),
+                user_agent VARCHAR(255),
+                session_id VARCHAR(255),
+                viewed_at TIMESTAMP,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
+                CONSTRAINT fk_job_views_job FOREIGN KEY (job_id) REFERENCES jobs(id)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_jobs_country ON jobs(country);
+            CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
+            CREATE INDEX IF NOT EXISTS idx_jobs_visa_status ON jobs(visa_status);
+            CREATE INDEX IF NOT EXISTS idx_jobs_job_type ON jobs(job_type);
+            CREATE INDEX IF NOT EXISTS idx_jobs_work_mode ON jobs(work_mode);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

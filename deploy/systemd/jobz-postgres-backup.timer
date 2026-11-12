@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the Jobz PostgreSQL S3 backup each day
+
+[Timer]
+OnCalendar=*-*-* 03:17:00 UTC
+RandomizedDelaySec=15m
+Persistent=true
+Unit=jobz-postgres-backup.service
+
+[Install]
+WantedBy=timers.target

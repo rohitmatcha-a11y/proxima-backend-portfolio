@@ -1,0 +1,27 @@
+# UAT must supply its own infrastructure and OAuth values through its server
+# environment. No UAT credentials belong in this repository.
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URI}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS}
+  auth:
+    github-redirect-uri: ${GITHUB_REDIRECT_URI}
+    frontend-url: ${APP_FRONTEND_URL}
+    issuer: ${APP_AUTH_ISSUER}
+    secure-cookies: ${APP_AUTH_SECURE_COOKIES:true}

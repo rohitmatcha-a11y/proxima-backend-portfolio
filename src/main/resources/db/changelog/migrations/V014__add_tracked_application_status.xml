@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="V014-add-tracked-application-status" author="codex">
+        <addColumn tableName="user_job_applications">
+            <column name="tracked_at" type="TIMESTAMPTZ"/>
+        </addColumn>
+        <sql>UPDATE user_job_applications SET tracked_at = applied_at WHERE tracked_at IS NULL</sql>
+        <dropNotNullConstraint tableName="user_job_applications" columnName="applied_at" columnDataType="TIMESTAMPTZ"/>
+        <createIndex tableName="user_job_applications" indexName="idx_user_job_applications_user_status_tracked">
+            <column name="user_id"/>
+            <column name="status"/>
+            <column name="tracked_at" descending="true"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

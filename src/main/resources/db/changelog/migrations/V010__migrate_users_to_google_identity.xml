@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="V010-migrate-users-to-google-identity" author="proxima">
+        <addColumn tableName="app_users">
+            <column name="google_subject" type="VARCHAR(255)"/>
+        </addColumn>
+        <addUniqueConstraint tableName="app_users"
+                             columnNames="google_subject"
+                             constraintName="uq_app_users_google_subject"/>
+        <dropColumn tableName="app_users" columnName="password_hash"/>
+    </changeSet>
+
+</databaseChangeLog>

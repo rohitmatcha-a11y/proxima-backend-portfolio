@@ -1,0 +1,63 @@
+{
+	# Caddy uses this address for Let's Encrypt expiry notices.
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	# Browser-facing security baseline. The CSP is deliberately scoped to the
+	# audited external browser resources used by Jobz: Google Identity,
+	# Google Fonts, optional Sentry telemetry, and HTTPS company logos. It is
+	# enforced rather than report-only, so additions of browser dependencies
+	# should be reviewed here first.
+	header {
+		-Server
+		-X-Powered-By
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), geolocation=(), microphone=(), payment=(), usb=()"
+		Cross-Origin-Opener-Policy "same-origin-allow-popups"
+		Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com/gsi/style; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://accounts.google.com/gsi/ https://*.sentry.io; frame-src https://accounts.google.com/gsi/; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
+	}
+
+	# API responses include authentication and user-specific state, so browser
+	# and intermediary caches must not retain them.
+	@apiRoutes path /api/v1/* /api/backend/*
+	header @apiRoutes >Cache-Control "no-store"
+
+	# Caddy writes structured access logs to Docker stdout. OAuth callback URLs
+	# contain short-lived codes, so those requests are intentionally not logged.
+	@oauthRoutes path /api/v1/auth/* /api/backend/auth/*
+	log_skip @oauthRoutes
+	log {
+		output stdout
+		# Search and filter terms are user-supplied. Keep the path for
+		# operational visibility but remove every query string before logging.
+		format filter {
+			request>uri regexp "\\?.*$" ""
+			wrap json
+		}
+	}
+
+	# Browser requests use this existing frontend API prefix. Convert it to the
+	# backend's /api/v1 prefix without exposing the backend port publicly.
+	@frontendApi path /api/backend/*
+	handle @frontendApi {
+		uri replace /api/backend /api/v1
+		reverse_proxy backend:8080
+	}
+
+	# OAuth callbacks are sent directly to the Spring Boot backend.
+	@backendApi path /api/v1/*
+	handle @backendApi {
+		reverse_proxy backend:8080
+	}
+
+	# Every other request is served by Next.js.
+	handle {
+		reverse_proxy frontend:3000
+	}
+}

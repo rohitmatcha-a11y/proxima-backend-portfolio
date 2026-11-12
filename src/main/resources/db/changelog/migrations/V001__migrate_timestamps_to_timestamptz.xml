@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="V001-migrate-timestamps-to-timestamptz" author="proxima">
+        <comment>Migrate all timestamp columns to TIMESTAMPTZ for global timezone support</comment>
+
+        <!-- jobs -->
+        <sql>ALTER TABLE jobs ALTER COLUMN posted_at TYPE TIMESTAMPTZ USING posted_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE jobs ALTER COLUMN expires_at TYPE TIMESTAMPTZ USING expires_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE jobs ALTER COLUMN created_at TYPE TIMESTAMPTZ USING created_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE jobs ALTER COLUMN updated_at TYPE TIMESTAMPTZ USING updated_at AT TIME ZONE 'UTC';</sql>
+
+        <!-- scraper_runs -->
+        <sql>ALTER TABLE scraper_runs ALTER COLUMN started_at TYPE TIMESTAMPTZ USING started_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_runs ALTER COLUMN completed_at TYPE TIMESTAMPTZ USING completed_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_runs ALTER COLUMN created_at TYPE TIMESTAMPTZ USING created_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_runs ALTER COLUMN updated_at TYPE TIMESTAMPTZ USING updated_at AT TIME ZONE 'UTC';</sql>
+
+        <!-- job_views -->
+        <sql>ALTER TABLE job_views ALTER COLUMN viewed_at TYPE TIMESTAMPTZ USING viewed_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE job_views ALTER COLUMN created_at TYPE TIMESTAMPTZ USING created_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE job_views ALTER COLUMN updated_at TYPE TIMESTAMPTZ USING updated_at AT TIME ZONE 'UTC';</sql>
+
+        <!-- scraper_configs -->
+        <sql>ALTER TABLE scraper_configs ALTER COLUMN last_run_at TYPE TIMESTAMPTZ USING last_run_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_configs ALTER COLUMN last_success_at TYPE TIMESTAMPTZ USING last_success_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_configs ALTER COLUMN last_error_at TYPE TIMESTAMPTZ USING last_error_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_configs ALTER COLUMN created_at TYPE TIMESTAMPTZ USING created_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE scraper_configs ALTER COLUMN updated_at TYPE TIMESTAMPTZ USING updated_at AT TIME ZONE 'UTC';</sql>
+
+        <!-- companies -->
+        <sql>ALTER TABLE companies ALTER COLUMN last_scraped_at TYPE TIMESTAMPTZ USING last_scraped_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE companies ALTER COLUMN created_at TYPE TIMESTAMPTZ USING created_at AT TIME ZONE 'UTC';</sql>
+        <sql>ALTER TABLE companies ALTER COLUMN updated_at TYPE TIMESTAMPTZ USING updated_at AT TIME ZONE 'UTC';</sql>
+    </changeSet>
+
+</databaseChangeLog>

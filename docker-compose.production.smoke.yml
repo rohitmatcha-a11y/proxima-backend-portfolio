@@ -1,0 +1,11 @@
+# Local-only override used by scripts/verify-full-production-stack.sh.
+# Docker Compose v2.24+ supports !override, which replaces rather than appends
+# the production Caddy port and volume definitions.
+services:
+  caddy:
+    ports: !override
+      - "${SMOKE_HTTP_PORT:-18080}:80"
+    volumes: !override
+      - ./Caddyfile.smoke:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config

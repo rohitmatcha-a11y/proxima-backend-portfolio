@@ -1,0 +1,183 @@
+# Shared configuration for every environment. Environment-specific connection
+# details and URLs live in application-dev.yml, application-uat.yml, and
+# application-prod.yml.
+server:
+  shutdown: graceful
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+  config:
+    # Local-only secrets can stay in the git-ignored backend .env file.
+    import: optional:file:.env[.properties]
+  profiles:
+    # Maven runs locally with the dev profile unless another profile is chosen.
+    default: dev
+  application:
+    name: job-portal-backend
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      keepalive-time: 60000
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  elasticsearch:
+    connection-timeout: 5s
+    socket-timeout: 30s
+
+  kafka:
+    consumer:
+      group-id: job-portal-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+      properties:
+        spring.json.trusted.packages: "*"
+        max.block.ms: 5000
+        request.timeout.ms: 5000
+    admin:
+      fail-fast: false
+      properties:
+        request.timeout.ms: 5000
+        default.api.timeout.ms: 5000
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+anthropic:
+  api:
+    key: ${ANTHROPIC_API_KEY:}
+
+app:
+  seed:
+    # The production image keeps the original seed behavior by default. Release
+    # verification can opt out so it never makes live metadata requests.
+    enabled: ${APP_SEED_ENABLED:true}
+  auth:
+    # Required: use a random secret of at least 32 characters, e.g. `openssl rand -base64 48`.
+    jwt-secret: ${APP_AUTH_JWT_SECRET:${JWT_SECRET:}}
+    google-client-id: ${GOOGLE_CLIENT_ID:}
+    github-client-id: ${GITHUB_CLIENT_ID:}
+    github-client-secret: ${GITHUB_CLIENT_SECRET:}
+    token-ttl-ms: ${APP_AUTH_TOKEN_TTL_MS:${JWT_ACCESS_TOKEN_TTL_MS:28800000}}
+    bootstrap-admin:
+      enabled: ${APP_AUTH_BOOTSTRAP_ADMIN_ENABLED:${SEED_ADMIN_ENABLED:false}}
+      email: ${APP_AUTH_BOOTSTRAP_ADMIN_EMAIL:${ADMIN_EMAIL:}}
+  scraper:
+    enabled: ${APP_SCRAPER_ENABLED:true}
+    cron: "0 0 */6 * * *"
+    rate-limit-ms: 2000
+    thread-pool-size: 10
+    max-failures: 3
+    retry-delays: "5,15,30"
+    run-timeout-minutes: 120
+    reindex-batch-size: 500
+    fetch-timeout-ms: 10000
+  visa:
+    detection-enabled: true
+    model: claude-haiku-4-5-20251001
+    max-description-chars: 3000
+  lock:
+    wait-ms: 500
+    lease-ms: 10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      # Component names and infrastructure details remain private. The public
+      # /api/v1/health endpoint exposes only an aggregate status.
+      show-details: never
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active:${spring.profiles.default}}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      slo:
+        http.server.requests: 50ms,100ms,250ms,500ms,1s,2s,5s
+
+info:
+  app:
+    name: Proxima API
+    version: ${APP_VERSION:local}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+
+cache:
+  ttl:
+    job-search: 3
+    job-company: 10
+    job-detail: 60
+    job-similar: 30
+    filter-options: 360
+    job-stats: 360
+    job-ticker: 10
+
+external:
+  greenhouse:
+    base-url: https://boards-api.greenhouse.io/v1/boards
+  nominatim:
+    base-url: https://nominatim.openstreetmap.org/search
+  wikipedia:
+    base-url: https://en.wikipedia.org/api/rest_v1/page/summary
+    api-url: https://en.wikipedia.org/w/api.php
+  anthropic:
+    url: https://api.anthropic.com/v1/messages
+    version: 2023-06-01
+
+outbox:
+  polling:
+    interval-ms: 5000
+
+scrapers:
+  google:
+    max-pages: 500
+  greenhouse:
+    boards:
+      anthropic: anthropic
+      coinbase: coinbase
+      stripe: stripe
+      figma: figma
+      razorpay: razorpaysoftwareprivatelimited

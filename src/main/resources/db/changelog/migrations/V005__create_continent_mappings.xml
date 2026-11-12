@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="V005-1" author="proxima">
+        <createTable tableName="continent_mappings">
+            <column name="country_code" type="VARCHAR(2)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="continent" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="V005-2" author="proxima">
+        <!-- North America -->
+        <insert tableName="continent_mappings"><column name="country_code">us</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ca</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mx</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">gt</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bz</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">hn</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sv</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ni</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cr</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">pa</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cu</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">jm</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ht</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">do</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">pr</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tt</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bb</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">lc</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">vc</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">gd</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ag</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">dm</column><column name="continent">North America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">kn</column><column name="continent">North America</column></insert>
+
+        <!-- South America -->
+        <insert tableName="continent_mappings"><column name="country_code">br</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ar</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cl</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">co</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">pe</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ve</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ec</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bo</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">py</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">uy</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">gy</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sr</column><column name="continent">South America</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">gf</column><column name="continent">South America</column></insert>
+
+        <!-- Europe -->
+        <insert tableName="continent_mappings"><column name="country_code">gb</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">de</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">fr</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">it</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">es</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">nl</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">be</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ch</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">at</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">se</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">no</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">dk</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">fi</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">pl</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cz</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sk</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">hu</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ro</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bg</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">hr</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">si</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">rs</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ba</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">me</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mk</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">al</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">gr</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">pt</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ie</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">lu</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mt</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cy</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ee</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">lv</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">lt</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">is</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">li</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mc</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sm</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">va</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ad</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">by</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ua</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">md</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ru</column><column name="continent">Europe</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tr</column><column name="continent">Europe</column></insert>
+
+        <!-- Middle East -->
+        <insert tableName="continent_mappings"><column name="country_code">il</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ps</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sa</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ae</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">qa</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">kw</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bh</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">om</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ye</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">iq</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ir</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sy</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">lb</column><column name="continent">Middle East</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">jo</column><column name="continent">Middle East</column></insert>
+
+        <!-- Asia Pacific -->
+        <insert tableName="continent_mappings"><column name="country_code">in</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cn</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">jp</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">kr</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">au</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sg</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">hk</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tw</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">th</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">vn</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">id</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">my</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ph</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">nz</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">pk</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bd</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">lk</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">np</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mm</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">kh</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">la</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bn</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tl</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mn</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">kz</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">uz</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tm</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">kg</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tj</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">af</column><column name="continent">Asia Pacific</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mv</column><column name="continent">Asia Pacific</column></insert>
+
+        <!-- Africa -->
+        <insert tableName="continent_mappings"><column name="country_code">za</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ng</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ke</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">eg</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">gh</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tz</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">et</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ug</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">dz</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ma</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">tn</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ly</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sd</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ao</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mz</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mg</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">ci</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">cm</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sn</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">zm</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">zw</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">na</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">bw</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">rw</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">mu</column><column name="continent">Africa</column></insert>
+        <insert tableName="continent_mappings"><column name="country_code">sc</column><column name="continent">Africa</column></insert>
+    </changeSet>
+
+</databaseChangeLog>

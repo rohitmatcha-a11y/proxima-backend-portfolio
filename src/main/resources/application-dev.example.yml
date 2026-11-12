@@ -1,0 +1,28 @@
+# Copy this file to application-dev.yml. The real application-dev.yml is ignored
+# by Git and Docker so local connection details cannot reach a production image.
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jobportal
+    username: jobportal
+    # Required: set POSTGRES_PASSWORD in the git-ignored backend .env file.
+    password: ${POSTGRES_PASSWORD}
+  elasticsearch:
+    uris: http://localhost:9200
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  auth:
+    github-redirect-uri: ${GITHUB_REDIRECT_URI:http://localhost:8080/api/v1/auth/github/callback}
+    frontend-url: ${APP_FRONTEND_URL:http://localhost:3000}
+    issuer: ${APP_AUTH_ISSUER:job-portal-dev}
+    secure-cookies: ${APP_AUTH_SECURE_COOKIES:false}

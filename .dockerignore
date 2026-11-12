@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.*
+target/
+*.log
+.idea/
+.vscode/
+.DS_Store
+src/main/resources/application-dev.yml
+docker-compose*.yml
+Caddyfile
+AUTH_SETUP.md

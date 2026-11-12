@@ -1,0 +1,51 @@
+groups:
+  - name: jobz-availability
+    rules:
+      - alert: JobzBackendDown
+        expr: up{job="jobz-backend"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: backend
+        annotations:
+          summary: "Jobz backend is unreachable"
+          description: "Prometheus has not been able to scrape the Jobz backend for at least two minutes."
+
+      - alert: JobzBackendTargetMissing
+        expr: absent(up{job="jobz-backend"})
+        for: 2m
+        labels:
+          severity: critical
+          service: backend
+        annotations:
+          summary: "Jobz backend monitoring target is missing"
+          description: "Prometheus cannot find the configured Jobz backend target. Check the backend service and scrape configuration."
+
+  - name: jobz-application
+    rules:
+      - alert: JobzHighServerErrorRate
+        expr: |
+          (
+            sum(rate(http_server_requests_seconds_count{job="jobz-backend",status=~"5..",uri!~"/actuator.*"}[5m]))
+            /
+            clamp_min(sum(rate(http_server_requests_seconds_count{job="jobz-backend",uri!~"/actuator.*"}[5m])), 0.001)
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: backend
+        annotations:
+          summary: "Jobz backend 5xx error rate is above 5%"
+          description: "More than 5% of non-actuator backend requests have returned 5xx responses for at least five minutes."
+
+  - name: jobz-scrapers
+    rules:
+      - alert: JobzScraperFailure
+        expr: increase(jobz_scraper_runs_total{job="jobz-backend",outcome="failed"}[6h]) > 0
+        for: 2m
+        labels:
+          severity: warning
+          service: scraper
+        annotations:
+          summary: "A Jobz scraper run failed"
+          description: "At least one scraper run has failed in the last six hours. Review the scraper dashboard and backend logs."

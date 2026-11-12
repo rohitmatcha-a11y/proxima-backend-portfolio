@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="012-create-user-job-tracking" author="codex">
+        <createTable tableName="user_saved_jobs">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="user_saved_jobs" baseColumnNames="user_id"
+                                 referencedTableName="app_users" referencedColumnNames="id"
+                                 constraintName="fk_user_saved_jobs_user" onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="user_saved_jobs" baseColumnNames="job_id"
+                                 referencedTableName="jobs" referencedColumnNames="id"
+                                 constraintName="fk_user_saved_jobs_job" onDelete="CASCADE"/>
+        <addUniqueConstraint tableName="user_saved_jobs" columnNames="user_id,job_id"
+                             constraintName="uk_user_saved_jobs_user_job"/>
+        <createIndex tableName="user_saved_jobs" indexName="idx_user_saved_jobs_user_created">
+            <column name="user_id"/>
+            <column name="created_at" descending="true"/>
+        </createIndex>
+
+        <createTable tableName="user_job_applications">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)" defaultValue="APPLIED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applied_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="user_job_applications" baseColumnNames="user_id"
+                                 referencedTableName="app_users" referencedColumnNames="id"
+                                 constraintName="fk_user_job_applications_user" onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="user_job_applications" baseColumnNames="job_id"
+                                 referencedTableName="jobs" referencedColumnNames="id"
+                                 constraintName="fk_user_job_applications_job" onDelete="CASCADE"/>
+        <addUniqueConstraint tableName="user_job_applications" columnNames="user_id,job_id"
+                             constraintName="uk_user_job_applications_user_job"/>
+        <createIndex tableName="user_job_applications" indexName="idx_user_job_applications_user_applied">
+            <column name="user_id"/>
+            <column name="applied_at" descending="true"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

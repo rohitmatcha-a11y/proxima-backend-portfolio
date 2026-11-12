@@ -1,0 +1,25 @@
+[Unit]
+Description=Jobz PostgreSQL backup to encrypted S3
+Documentation=file:///opt/jobz/job-portal/OPERATIONS.md
+Wants=network-online.target
+After=docker.service network-online.target
+Requires=docker.service
+ConditionPathExists=/opt/jobz/job-portal/docker-compose.production.yml
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+Environment=JOBZ_DEPLOY_DIR=/opt/jobz/job-portal
+EnvironmentFile=/etc/jobz/backup.env
+ExecStart=/opt/jobz/job-portal/scripts/backup-postgres-to-s3.sh
+TimeoutStartSec=2h
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+StandardOutput=journal
+StandardError=journal
